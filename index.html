@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>गणित वीडियो कोर्स - शैक्षिक पाठ्यक्रम</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    :root {
+      /* Default: Neon Green Theme */
+      --primary-color: #00ff00;
+      --light-color: #ccff90;
+      --secondary-color: #99cc00;
+      --glow-color: rgba(0, 255, 0, 0.5);
+      --glow-color-bright: rgba(0, 255, 0, 0.8);
+      --button-text-color: #000;
+    }
+
+    body {
+      background-color: #1a1a1a;
+      color: var(--light-color);
+      position: relative;
+    }
+
+    header {
+      background-color: #0d0d0d;
+      color: var(--light-color);
+      text-align: center;
+      padding: 2rem;
+      border-bottom: 2px solid var(--primary-color);
+      text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
+
+    .color-picker {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      border: 2px solid var(--light-color);
+      box-shadow: 0 0 10px var(--glow-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.3s;
+      z-index: 1000;
+    }
+
+    .color-picker:hover {
+      box-shadow: 0 0 15px var(--glow-color-bright);
+    }
+
+    .color-picker::before {
+      content: '🎨';
+      font-size: 1.5rem;
+    }
+
+    .color-palette {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background-color: #0d0d0d;
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      padding: 1rem;
+      display: none;
+      grid-template-columns: repeat(5, 30px);
+      gap: 10px;
+      box-shadow: 0 0 15px var(--glow-color);
+      z-index: 999;
+    }
+
+    .color-palette.active {
+      display: grid;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px #fff;
+    }
+
+    h2 {
+      color: var(--light-color);
+      text-align: center;
+      margin: 2rem 0;
+      text-shadow: 0 0 8px var(--glow-color);
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .video-card {
+      background-color: rgba(13, 13, 13, 0.8);
+      border: 1px solid var(--primary-color);
+      border-radius: 8px;
+      box-shadow: 0 0 15px var(--glow-color);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .video-card:hover {
+      transform: scale(1.05);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 15px var(--glow-color);
+      }
+
+      50% {
+        box-shadow: 0 0 25px var(--glow-color-bright);
+      }
+
+      100% {
+        box-shadow: 0 0 15px var(--glow-color);
+      }
+    }
+
+    .video-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+    }
+
+    .video-card:hover img {
+      opacity: 1;
+    }
+
+    .video-card-content {
+      padding: 1.5rem;
+    }
+
+    .video-card-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--light-color);
+      text-shadow: 0 0 8px var(--glow-color);
+    }
+
+    .video-card-content a {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: var(--button-text-color);
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .video-card-content a:hover {
+      background-color: var(--secondary-color);
+      box-shadow: 0 0 10px var(--primary-color);
+    }
+
+    footer {
+      background-color: #0d0d0d;
+      color: var(--light-color);
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-top: 2px solid var(--primary-color);
+      text-shadow: 0 0 10px var(--primary-color);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+
+      .color-palette {
+        grid-template-columns: repeat(3, 30px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .color-picker {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+      }
+
+      .color-palette {
+        top: 50px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>गणित वीडियो कोर्स</h1>
+  </header>
+
+  <div class="color-picker" onclick="toggleColorPalette()"></div>
+  <div class="color-palette" id="color-palette">
+    <div class="color-option" style="background-color: #00ff00;" data-theme="neon-green"></div>
+    <div class="color-option" style="background-color: #4fc3f7;" data-theme="sky-blue"></div>
+    <div class="color-option" style="background-color: #ff0000;" data-theme="red"></div>
+    <div class="color-option" style="background-color: #8a2be2;" data-theme="purple"></div>
+    <div class="color-option" style="background-color: #ff6200;" data-theme="orange"></div>
+    <div class="color-option" style="background-color: #00e5ff;" data-theme="cyan"></div>
+    <div class="color-option" style="background-color: #ff4081;" data-theme="pink"></div>
+    <div class="color-option" style="background-color: #c6ff00;" data-theme="lime"></div>
+    <div class="color-option" style="background-color: #00bfa5;" data-theme="teal"></div>
+    <div class="color-option" style="background-color: #ffab00;" data-theme="amber"></div>
+  </div>
+
+  <section>
+    <h2>संख्या प्रणाली (Number System)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Number System Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || संख्या प्रणाली</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1860315%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: संख्या प्रणाली Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Number System Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || संख्या प्रणाली</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1862182%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: संख्या प्रणाली Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>अनुपात और समानुपात (Ratio and Proportion)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Ratio and Proportion Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || अनुपात और समानुपात</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1864008%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: अनुपात और समानुपात Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Ratio and Proportion Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || अनुपात और समानुपात</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1865496%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: अनुपात और समानुपात Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Ratio and Proportion Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || अनुपात और समानुपात</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1866760%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: अनुपात और समानुपात Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Ratio and Proportion Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || अनुपात और समानुपात</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1868703%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: अनुपात और समानुपात Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 5 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Ratio and Proportion Part-5 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-5 || अनुपात और समानुपात</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1869772%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: अनुपात और समानुपात Part-5">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 6 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Ratio and Proportion Part-6 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-6 || अनुपात और समानुपात</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1871151%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: अनुपात और समानुपात Part-6">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>प्रतिशत (Percentage)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Percentage Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || प्रतिशत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1872828%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: प्रतिशत Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Percentage Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || प्रतिशत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1874351%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: प्रतिशत Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Percentage Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || प्रतिशत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1875846%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: प्रतिशत Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Percentage Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || प्रतिशत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1877847%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: प्रतिशत Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 5 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Percentage Part-5 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-5 || प्रतिशत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1879467%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: प्रतिशत Part-5">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 6 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Percentage Part-6 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-6 || प्रतिशत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1880471%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: प्रतिशत Part-6">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>लाभ और हानि (Profit and Loss)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Profit and Loss Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || लाभ और हानि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1882032%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: लाभ और हानि Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Profit and Loss Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || लाभ और हानि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1883710%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: लाभ और हानि Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Profit and Loss Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || लाभ और हानि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1885180%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: लाभ और हानि Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Profit and Loss Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || लाभ और हानि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1885757%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: लाभ और हानि Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 5 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Profit and Loss Part-5 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-5 || लाभ और हानि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1889273%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: लाभ और हानि Part-5">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 6 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Profit and Loss Part-6 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-6 || लाभ और हानि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1890276%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: लाभ और हानि Part-6">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>साधारण ब्याज (Simple Interest)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Simple Interest Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || साधारण ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1891747%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: साधारण ब्याज Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Simple Interest Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || साधारण ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1893439%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: साधारण ब्याज Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Simple Interest Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || साधारण ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1894897%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: साधारण ब्याज Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Simple Interest Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || साधारण ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1895542%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: साधारण ब्याज Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>चक्रवृद्धि ब्याज (Compound Interest)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Compound Interest Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || चक्रवृद्धि ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1896788%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: चक्रवृद्धि ब्याज Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Compound Interest Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || चक्रवृद्धि ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1898352%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: चक्रवृद्धि ब्याज Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Compound Interest Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || चक्रवृद्धि ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1899699%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: चक्रवृद्धि ब्याज Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Compound Interest Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || चक्रवृद्धि ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1902250%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: चक्रवृद्धि ब्याज Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 5 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Compound Interest Part-5 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-5 || चक्रवृद्धि ब्याज</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1903340%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: चक्रवृद्धि ब्याज Part-5">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>औसत (Average)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Average Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || औसत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1904271%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: औसत Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Average Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || औसत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1905491%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: औसत Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Average Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || औसत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1916690%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: औसत Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Average Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || औसत</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1918263%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: औसत Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>इकाई विधि (Unitary Method)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Unitary Method Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || इकाई विधि</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1959620%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: इकाई विधि Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>क्षेत्रमिति (Mensuration)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1960519%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1961634%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1963448%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1969281%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 5 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-5 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-5 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1970600%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-5">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 6 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-6 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-6 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1972157%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-6">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 7 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-7 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-7 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1973962%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-7">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 8 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-8 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-8 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1975364%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-8">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 9 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-9 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-9 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1975714%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-9">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 10 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-10 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-10 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1976716%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-10">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 11 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-11 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-11 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1979314%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-11">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 12 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-12 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-12 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1985508%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-12">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 13 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for Mensuration Part-13 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-13 || क्षेत्रमिति</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F1988732%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: क्षेत्रमिति Part-13">वीडियो चलाएँ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>बहुविकल्पी प्रश्न (MCQ)</h2>
+    <div class="container">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-1 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-1 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2142600%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-1">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-2 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-2 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2142601%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-2">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-3 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-3 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2151329%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-3">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 4 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-4 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-4 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2151330%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-4">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 5 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-5 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-5 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2153042%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-5">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 6 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-6 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-6 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2154141%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-6">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 7 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-7 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-7 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2154142%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-7">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 8 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-8 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-8 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2154143%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-8">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 9 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-9 Video" loading="lazy">
+        <div class="video-card-content">
+          <h3>Part-9 || बहुविकल्पी प्रश्न</h3>
+          <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2159141%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-9">वीडियो चलाएँ</a>
+        </div>
+      </div>
+      <!-- Video 10 -->
+      <div class="video-card">
+        <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" alt="Thumbnail for MCQ Part-10 Video" loading="lazy">
+            <div class="video-card-content">
+              <h3>Part-10 || बहुविकल्पी प्रश्न</h3>
+              <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-prod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2242600%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-10">वीडियो चलाएँ</a>
+            </div>
+          </div>
+        
+          <!-- Video 11 -->
+          <div class="video-card">
+            <img src="https://media.istockphoto.com/id/1477308955/vector/hand-drawn-math-symbols-icon-in-flat-style-mathematics-formula-vector-illustration-on.jpg?s=612x612&w=0&k=20&c=Ih3FQB_SXjV29i-pFWs1KbYVuqSOSXmNh8N8HGja5r8=" loading="lazy">
+            <div class="video-card-content">
+              <h3>Part-11 || बहुविकल्पी प्रश्न</h3>
+              <a href="pro_mp4_player.html?video=https%3A%2F%2Fapps-s3-jw-pod.utkarshapp.com%2Fadmin_v1%2Ffile_library%2Fvideos%2Fenc_plain_mp4%2F2242601%2Fplain%2F720x1280.mp4" aria-label="वीडियो चलाएँ: बहुविकल्पी प्रश्न Part-11">वीडियो चलाएँ</a>
+            </div>
+          </div>
+        </div>
+  </section>
+
+  <footer>
+    <p>© 2025 गणित वीडियो कोर्स. सभी अधिकार सुरक्षित.<br>कृपया अच्छे से पढ़ाई करें। समय बर्बाद मत करें, यही वक्त है मेहनत का — जो आज पसीना बहाओगे, वही कल सफलता बनकर लौटेगा।</p>
+  </footer>
+
+  <script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+
+    function loadFileData(filename) {
+      if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+          var workbook = XLSX.read(gk_fileData[filename], {
+            type: 'base64'
+          });
+          var firstSheetName = workbook.SheetNames[0];
+          var worksheet = workbook.Sheets[firstSheetName];
+          var jsonData = XLSX.utils.sheet_to_json(worksheet, {
+            header: 1,
+            blankrows: false,
+            defval: ''
+          });
+          var filteredData = jsonData.filter(row => row.some(filledCell));
+          var headerRowIndex = filteredData.findIndex((row, index) =>
+            row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+          );
+          if (headerRowIndex === -1 || headerRowIndex > 25) {
+            headerRowIndex = 0;
+          }
+          var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+          csv = XLSX.utils.sheet_to_csv(csv, {
+            header: 1
+          });
+          return csv;
+        } catch (e) {
+          console.error(e);
+          return "";
+        }
+      }
+      return gk_fileData[filename] || "";
+    }
+
+    function toggleColorPalette() {
+      const palette = document.getElementById('color-palette');
+      palette.classList.toggle('active');
+    }
+
+    function changeTheme(theme) {
+      const root = document.documentElement;
+      const themes = {
+        'neon-green': {
+          primary: '#00ff00',
+          light: '#ccff90',
+          secondary: '#99cc00',
+          glow: 'rgba(0, 255, 0, 0.5)',
+          glowBright: 'rgba(0, 255, 0, 0.8)',
+          buttonText: '#000'
+        },
+        'sky-blue': {
+          primary: '#4fc3f7',
+          light: '#b3e5fc',
+          secondary: '#81d4fa',
+          glow: 'rgba(79, 195, 247, 0.5)',
+          glowBright: 'rgba(79, 195, 247, 0.8)',
+          buttonText: '#fff'
+        },
+        'red': {
+          primary: '#ff0000',
+          light: '#ff6666',
+          secondary: '#cc0000',
+          glow: 'rgba(255, 0, 0, 0.5)',
+          glowBright: 'rgba(255, 0, 0, 0.8)',
+          buttonText: '#000'
+        },
+        'purple': {
+          primary: '#8a2be2',
+          light: '#d8b9ff',
+          secondary: '#b19cd9',
+          glow: 'rgba(138, 43, 226, 0.5)',
+          glowBright: 'rgba(138, 43, 226, 0.8)',
+          buttonText: '#fff'
+        },
+        'orange': {
+          primary: '#ff6200',
+          light: '#ffab91',
+          secondary: '#dd4b00',
+          glow: 'rgba(255, 98, 0, 0.5)',
+          glowBright: 'rgba(255, 98, 0, 0.8)',
+          buttonText: '#000'
+        },
+        'cyan': {
+          primary: '#00e5ff',
+          light: '#80deea',
+          secondary: '#00b7eb',
+          glow: 'rgba(0, 229, 255, 0.5)',
+          glowBright: 'rgba(0, 229, 255, 0.8)',
+          buttonText: '#000'
+        },
+        'pink': {
+          primary: '#ff4081',
+          light: '#ff80ab',
+          secondary: '#d81b60',
+          glow: 'rgba(255, 64, 129, 0.5)',
+          glowBright: 'rgba(255, 64, 129, 0.8)',
+          buttonText: '#fff'
+        },
+        'lime': {
+          primary: '#c6ff00',
+          light: '#e1ff5e',
+          secondary: '#aeea00',
+          glow: 'rgba(198, 255, 0, 0.5)',
+          glowBright: 'rgba(198, 255, 0, 0.8)',
+          buttonText: '#000'
+        },
+        'teal': {
+          primary: '#00bfa5',
+          light: '#80cbc4',
+          secondary: '#00897b',
+          glow: 'rgba(0, 191, 165, 0.5)',
+          glowBright: 'rgba(0, 191, 165, 0.8)',
+          buttonText: '#fff'
+        },
+        'amber': {
+          primary: '#ffab00',
+          light: '#ffd180',
+          secondary: '#ff6f00',
+          glow: 'rgba(255, 171, 0, 0.5)',
+          glowBright: 'rgba(255, 171, 0, 0.8)',
+          buttonText: '#000'
+        }
+      };
+      const selectedTheme = themes[theme] || themes['neon-green'];
+      root.style.setProperty('--primary-color', selectedTheme.primary);
+      root.style.setProperty('--light-color', selectedTheme.light);
+      root.style.setProperty('--secondary-color', selectedTheme.secondary);
+      root.style.setProperty('--glow-color', selectedTheme.glow);
+      root.style.setProperty('--glow-color-bright', selectedTheme.glowBright);
+      root.style.setProperty('--button-text-color', selectedTheme.buttonText);
+      document.getElementById('color-palette').classList.remove('active');
+    }
+    document.querySelectorAll('.color-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const theme = option.getAttribute('data-theme');
+        changeTheme(theme);
+      });
+    });
+  </script>
+</body>
+
+</html>
+<!-- partial -->
+  
+</body>
+</html>
